@@ -49,22 +49,22 @@
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 214 50% 10%;
     --card-foreground: 210 40% 98%;
 
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 240 70% 60%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 174 84% 30%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 174 84% 30%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -82,7 +82,15 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground dark:bg-gradient-dark;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-header;
+  }
+
+  p, span, div, a, button {
+    @apply font-body;
   }
 }
 
@@ -91,19 +99,23 @@
 }
 
 .status-pending {
-  @apply bg-amber-100 text-amber-800;
+  @apply bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300;
 }
 
 .status-active {
-  @apply bg-blue-100 text-blue-800;
+  @apply bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300;
+}
+
+.status-in_progress {
+  @apply bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300;
 }
 
 .status-completed {
-  @apply bg-green-100 text-green-800;
+  @apply bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300;
 }
 
 .status-breached {
-  @apply bg-red-100 text-red-800;
+  @apply bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300;
 }
 
 .page-container {
@@ -111,5 +123,9 @@
 }
 
 .section-title {
-  @apply text-2xl font-bold mb-6 text-contractly-blue;
+  @apply text-2xl font-bold mb-6 text-contractly-blue dark:text-white;
+}
+
+.glass-card {
+  @apply dark:bg-white/5 dark:backdrop-blur-xl dark:border-white/10;
 }

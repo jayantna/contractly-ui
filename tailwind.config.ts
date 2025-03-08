@@ -64,11 +64,13 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				contractly: {
-					blue: '#1a365d',
-					purple: '#4c51bf',
-					teal: '#0d9488',
+					blue: '#0f172a',
+					purple: '#312e81',
+					indigo: '#6366f1',
+					teal: '#14b8a6',
 					pending: '#f59e0b',
 					active: '#3b82f6',
+					inprogress: '#8b5cf6',
 					completed: '#10b981',
 					breached: '#ef4444',
 				}
@@ -99,6 +101,13 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
+			},
+			backgroundImage: {
+				'gradient-dark': 'linear-gradient(to bottom right, #0f172a, #312e81)',
+			},
+			fontWeight: {
+				header: '700',
+				body: '400',
 			}
 		}
 	},

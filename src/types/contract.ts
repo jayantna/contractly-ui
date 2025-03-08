@@ -1,10 +1,13 @@
 
-export type ContractStatus = 'pending' | 'active' | 'completed' | 'breached';
+export type ContractStatus = 'pending' | 'active' | 'in_progress' | 'completed' | 'breached';
+
+export type ContractType = 'delivery' | 'service' | 'payment' | 'milestone' | 'subscription';
 
 export interface Contract {
   id: string;
   title: string;
   templateId: string;
+  type: ContractType;
   status: ContractStatus;
   brandName: string;
   brandWallet: string;
@@ -17,6 +20,17 @@ export interface Contract {
   deliveryDate?: string;
   completedDate?: string;
   terms: string;
+  milestones?: Milestone[];
+}
+
+export interface Milestone {
+  id: string;
+  title: string;
+  description: string;
+  amount: number;
+  dueDate: string;
+  completed: boolean;
+  completedDate?: string;
 }
 
 export interface ContractTemplate {
@@ -24,6 +38,7 @@ export interface ContractTemplate {
   title: string;
   description: string;
   category: string;
+  type: ContractType;
   imageUrl: string;
   defaultTerms: string;
 }
@@ -34,6 +49,7 @@ export interface Transaction {
   amount: number;
   from: string;
   to: string;
-  type: 'stake' | 'penalty' | 'refund';
+  type: 'stake' | 'penalty' | 'refund' | 'milestone' | 'subscription';
   timestamp: string;
+  description?: string;
 }

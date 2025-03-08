@@ -21,7 +21,7 @@ const Templates = () => {
     return matchesSearch && matchesCategory;
   });
   
-  const categories = ['all', ...new Set(contractTemplates.map(t => t.category.toLowerCase()))];
+  const categories = ['all', ...new Set(contractTemplates.map(t => t.category))];
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -29,7 +29,7 @@ const Templates = () => {
       
       <main className="flex-grow py-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold text-contractly-blue mb-6">
+          <h1 className="text-3xl font-bold text-contractly-blue dark:text-white mb-6">
             Contract Templates
           </h1>
           
@@ -38,7 +38,7 @@ const Templates = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
               <Input
                 placeholder="Search templates..."
-                className="pl-10"
+                className="pl-10 dark:bg-gray-800 dark:border-gray-700"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -63,7 +63,7 @@ const Templates = () => {
             </div>
           ) : (
             <div className="text-center py-10">
-              <p className="text-gray-500">No templates found matching your criteria.</p>
+              <p className="text-gray-500 dark:text-gray-400">No templates found matching your criteria.</p>
             </div>
           )}
         </div>
