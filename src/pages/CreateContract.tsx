@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { contractTemplates } from '@/data/mockData';
@@ -18,6 +17,12 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, CheckCircle, Wallet } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAccount, useWriteContract } from 'wagmi';
+import { parseEther, Address } from 'viem';
+import {delivery} from '@/abis/Delivery';
+import { monadTestnet } from 'viem/chains';
+import { useWatchContractEvent } from 'wagmi'
+
 
 const CreateContract = () => {
   const navigate = useNavigate();
@@ -25,6 +30,8 @@ const CreateContract = () => {
   const { toast } = useToast();
   const queryParams = new URLSearchParams(location.search);
   const templateIdParam = queryParams.get('templateId');
+  const { address } = useAccount();
+  const { data, error, isError, isPending, writeContract } = useWriteContract();
   
   const [formData, setFormData] = useState({
     title: '',
@@ -33,7 +40,10 @@ const CreateContract = () => {
     penaltyAmount: 10,
     maxDays: 5,
     terms: '',
-    deliveryDate: ''
+    deliveryDate: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
+    customerAddress: '0xb2042d5007e42c081218f21ff91b5ab186e77ab2',
+    epochTime: '',
+    awbNumber: '123'
   });
   
   useEffect(() => {
@@ -48,31 +58,100 @@ const CreateContract = () => {
       }
     }
   }, [formData.templateId]);
-  
+
+  useEffect(() => {
+    console.log('address:', address);
+  }, [address]);
+
+  useEffect(() => {
+    if(data && !isError){
+      console.log('Transaction hash:', data);
+    }
+    if(isError){
+      console.log('Error:', error);
+    }
+    if(isPending){
+      console.log('Pending...');
+    }
+  }, [data, isError, isPending, error]);
+
+  useWatchContractEvent({
+    address: delivery.contractAddress as Address,
+    abi: delivery.abi,
+    eventName: 'DeliveryCreated',
+    onLogs: (logs) => {
+      console.log('event logs:', logs);
+    }
+  })
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+
+    // Prevent negative numbers for penaltyAmount
+    if (name === 'penaltyAmount' && Number(value) < 0) {
+      return; // Do not update state if the value is negative
+    }
+
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
   const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
-  
+
   const calculateStakeAmount = () => {
     return formData.penaltyAmount * formData.maxDays;
+  };
+
+  const convertToUnixTimestamp = (dateString: string): number => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day); // Month is 0-indexed in JavaScript
+    return Math.floor(date.getTime() / 1000); // Convert to Unix timestamp
   };
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+    console.log('formData:', formData);
+    const deliveryDateTimestamp = convertToUnixTimestamp(formData.deliveryDate);
+    console.log('Delivery Date Timestamp:', deliveryDateTimestamp, typeof deliveryDateTimestamp);
+    const epochTimeTimestamp = parseInt(formData.epochTime);
+    console.log('Epoch Time Timestamp:', epochTimeTimestamp, typeof epochTimeTimestamp);
+    const penaltyAmountWei = parseEther(formData.penaltyAmount.toString());
+    console.log('Penalty Amount in Wei:', penaltyAmountWei, typeof penaltyAmountWei);
+    const awbNumber = parseInt(formData.awbNumber)
+    console.log('AWB Number: ', awbNumber, typeof awbNumber);
     // Here you would handle the contract creation, connecting to wallet, etc.
+    writeContract({
+      abi: delivery.abi,
+      functionName: 'createDelivery',
+      address: delivery.contractAddress as Address,
+      account: address,
+      args: [
+        epochTimeTimestamp,
+        penaltyAmountWei, 
+        formData.customerAddress,
+        awbNumber,
+      ],
+      value: penaltyAmountWei,
+      chain: monadTestnet,
+    })
     toast({
       title: "Contract created successfully!",
       description: "You can now share this contract with your customer.",
     });
-    
-    navigate('/dashboard');
+    // navigate('/dashboard');
   };
+
+  const handleBreach = () => {
+    writeContract({
+      abi: delivery.abi,
+      functionName: 'breachAgreement',
+      address: delivery.contractAddress as Address,
+      account: address,
+      chain: monadTestnet,
+      args: [4,address]
+    })
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -148,47 +227,64 @@ const CreateContract = () => {
                           required
                         />
                       </div>
-                      
+                      <div>
+                        <Label htmlFor="brandName">Customer Address</Label>
+                        <Input
+                          id="brandName"
+                          name="customerAddress"
+                          value={formData.customerAddress}
+                          onChange={handleInputChange}
+                          placeholder="Customer Address"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="brandName">AWB Number</Label>
+                        <Input
+                          id="awbNumber"
+                          name="awbNumber"
+                          type='number'
+                          value={formData.awbNumber}
+                          onChange={handleInputChange}
+                          placeholder="AWB Number"
+                          required
+                        />
+                      </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label htmlFor="penaltyAmount">Penalty Amount ($ per day)</Label>
+                          <Label htmlFor="penaltyAmount">Penalty Amount (MON)</Label>
                           <Input
                             id="penaltyAmount"
                             name="penaltyAmount"
                             type="number"
-                            min="1"
                             value={formData.penaltyAmount}
                             onChange={handleInputChange}
                             required
                           />
                         </div>
-                        
                         <div>
-                          <Label htmlFor="maxDays">Maximum Days of Delay</Label>
+                          <Label htmlFor="deliveryDate">Expected Delivery Date</Label>
                           <Input
-                            id="maxDays"
-                            name="maxDays"
-                            type="number"
-                            min="1"
-                            value={formData.maxDays}
+                            id="deliveryDate"
+                            name="deliveryDate"
+                            type="date"
+                            value={formData.deliveryDate}
                             onChange={handleInputChange}
                             required
                           />
                         </div>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="deliveryDate">Expected Delivery Date</Label>
-                        <Input
-                          id="deliveryDate"
-                          name="deliveryDate"
-                          type="date"
-                          value={formData.deliveryDate}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      
+                        <div>
+                          <Label htmlFor="epochTime">Epoch time</Label>
+                          <Input
+                            id="epochTime"
+                            name="epochTime"
+                            type="number"
+                            value={formData.epochTime}
+                            onChange={handleInputChange}
+                            required
+                          />
+                        </div>
+                      </div>                      
                       <div>
                         <Label htmlFor="terms">Contract Terms</Label>
                         <Textarea
@@ -205,6 +301,11 @@ const CreateContract = () => {
                     
                     <Button type="submit" className="w-full bg-contractly-teal hover:bg-contractly-teal/90">
                       Create Contract & Stake Funds
+                    </Button>
+                    <Button type="button" className="w-full bg-contractly-teal hover:bg-contractly-teal/90"
+                      onClick={handleBreach}
+                    >
+                      Breach agreement
                     </Button>
                   </form>
                 </CardContent>
