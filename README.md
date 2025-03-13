@@ -1,3 +1,5 @@
+Smart contract source code: https://github.com/jayantna/Contractly
+
 # Welcome to your Lovable project
 
 ## Project info
