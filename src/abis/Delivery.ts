@@ -1,4 +1,233 @@
 export const delivery = {
-  contractAddress: "0x58A78cAc3E9759bbd85822e69a079d7C11f9c8d6",
-  abi: [{"type":"constructor","inputs":[{"name":"_contractlyAddress","type":"address","internalType":"address"}],"stateMutability":"nonpayable"},{"type":"function","name":"batchCreateDelivery","inputs":[{"name":"_expirationTimes","type":"uint128[]","internalType":"uint128[]"},{"name":"_totalStakingAmounts","type":"uint256[]","internalType":"uint256[]"},{"name":"_customerAddresses","type":"address[]","internalType":"address[]"}],"outputs":[{"name":"","type":"uint256[]","internalType":"uint256[]"}],"stateMutability":"payable"},{"type":"function","name":"breachAgreement","inputs":[{"name":"_agreementId","type":"uint256","internalType":"uint256"},{"name":"_breachingParty","type":"address","internalType":"address"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"checkDeliveryStatus","inputs":[{"name":"_agreementId","type":"uint256","internalType":"uint256"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"contractly","inputs":[],"outputs":[{"name":"","type":"address","internalType":"contract Contractly"}],"stateMutability":"view"},{"type":"function","name":"createDelivery","inputs":[{"name":"_expirationTime","type":"uint128","internalType":"uint128"},{"name":"_totalStakingAmount","type":"uint256","internalType":"uint256"},{"name":"_customerAddress","type":"address","internalType":"address"},{"name":"_awbNumber","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"payable"},{"type":"function","name":"fulfillAgreement","inputs":[{"name":"_agreementId","type":"uint256","internalType":"uint256"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"getAgreementDetails","inputs":[{"name":"_agreementId","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"id","type":"uint256","internalType":"uint256"},{"name":"creator","type":"address","internalType":"address"},{"name":"creationTime","type":"uint256","internalType":"uint256"},{"name":"expirationTime","type":"uint256","internalType":"uint256"},{"name":"disputeWindowDuration","type":"uint256","internalType":"uint256"},{"name":"totalStakingAmount","type":"uint256","internalType":"uint256"},{"name":"status","type":"uint8","internalType":"enum Contractly.AgreementStatus"},{"name":"partyAddresses","type":"address[]","internalType":"address[]"}],"stateMutability":"view"},{"type":"function","name":"getAwbToAgreementId","inputs":[{"name":"_awbNumber","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"getHasVendorAssigned","inputs":[{"name":"_agreementId","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"bool","internalType":"bool"}],"stateMutability":"view"},{"type":"function","name":"getLastAutomationUpdate","inputs":[],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"stakeAgreement","inputs":[{"name":"_agreementId","type":"uint256","internalType":"uint256"},{"name":"_amount","type":"uint256","internalType":"uint256"}],"outputs":[],"stateMutability":"payable"},{"type":"event","name":"AgreementCreated","inputs":[{"name":"agreementId","type":"uint256","indexed":true,"internalType":"uint256"},{"name":"creator","type":"address","indexed":false,"internalType":"address"}],"anonymous":false},{"type":"event","name":"BatchDeliveryCreated","inputs":[{"name":"expirationTimes","type":"uint128[]","indexed":false,"internalType":"uint128[]"},{"name":"totalStakingAmounts","type":"uint256[]","indexed":false,"internalType":"uint256[]"},{"name":"customerAddresses","type":"address[]","indexed":false,"internalType":"address[]"}],"anonymous":false},{"type":"event","name":"DeliveryCreated","inputs":[{"name":"agreementId","type":"uint256","indexed":true,"internalType":"uint256"},{"name":"vendor","type":"address","indexed":false,"internalType":"address"},{"name":"customer","type":"address","indexed":false,"internalType":"address"}],"anonymous":false},{"type":"error","name":"Delivery__InsufficientStakeAmount","inputs":[]},{"type":"error","name":"Delivery__VendorAlreadyAssigned","inputs":[]},{"type":"error","name":"Delivery__VendorNotSigned","inputs":[]}]
+  contractAddress: "0x270b077ABe3B6Fb61E11D2dB05E2f2AFc35181A1",
+  abi: [
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "_contractlyAddress",
+          type: "address",
+        },
+      ],
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
+    { inputs: [], name: "Delivery__InsufficientStakeAmount", type: "error" },
+    { inputs: [], name: "Delivery__VendorAlreadyAssigned", type: "error" },
+    { inputs: [], name: "Delivery__VendorNotSigned", type: "error" },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "agreementId",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "creator",
+          type: "address",
+        },
+      ],
+      name: "AgreementCreated",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "uint128[]",
+          name: "expirationTimes",
+          type: "uint128[]",
+        },
+        {
+          indexed: false,
+          internalType: "uint256[]",
+          name: "totalStakingAmounts",
+          type: "uint256[]",
+        },
+        {
+          indexed: false,
+          internalType: "address[]",
+          name: "customerAddresses",
+          type: "address[]",
+        },
+      ],
+      name: "BatchDeliveryCreated",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "agreementId",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "vendor",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "customer",
+          type: "address",
+        },
+      ],
+      name: "DeliveryCreated",
+      type: "event",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint128[]",
+          name: "_expirationTimes",
+          type: "uint128[]",
+        },
+        {
+          internalType: "uint256[]",
+          name: "_totalStakingAmounts",
+          type: "uint256[]",
+        },
+        {
+          internalType: "address[]",
+          name: "_customerAddresses",
+          type: "address[]",
+        },
+      ],
+      name: "batchCreateDelivery",
+      outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+      stateMutability: "payable",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "_agreementId", type: "uint256" },
+        { internalType: "address", name: "_breachingParty", type: "address" },
+      ],
+      name: "breachAgreement",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "_agreementId", type: "uint256" },
+      ],
+      name: "checkDeliveryStatus",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "contractly",
+      outputs: [
+        { internalType: "contract Contractly", name: "", type: "address" },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint128", name: "_expirationTime", type: "uint128" },
+        {
+          internalType: "uint256",
+          name: "_totalStakingAmount",
+          type: "uint256",
+        },
+        { internalType: "address", name: "_customerAddress", type: "address" },
+        { internalType: "uint256", name: "_awbNumber", type: "uint256" },
+      ],
+      name: "createDelivery",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "payable",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "_agreementId", type: "uint256" },
+      ],
+      name: "fulfillAgreement",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "_agreementId", type: "uint256" },
+      ],
+      name: "getAgreementDetails",
+      outputs: [
+        { internalType: "uint256", name: "id", type: "uint256" },
+        { internalType: "address", name: "creator", type: "address" },
+        { internalType: "uint256", name: "creationTime", type: "uint256" },
+        { internalType: "uint256", name: "expirationTime", type: "uint256" },
+        {
+          internalType: "uint256",
+          name: "disputeWindowDuration",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "totalStakingAmount",
+          type: "uint256",
+        },
+        {
+          internalType: "enum Contractly.AgreementStatus",
+          name: "status",
+          type: "uint8",
+        },
+        {
+          internalType: "address[]",
+          name: "partyAddresses",
+          type: "address[]",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "_awbNumber", type: "uint256" },
+      ],
+      name: "getAwbToAgreementId",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "_agreementId", type: "uint256" },
+      ],
+      name: "getHasVendorAssigned",
+      outputs: [{ internalType: "bool", name: "", type: "bool" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "getLastAutomationUpdate",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "_agreementId", type: "uint256" },
+        { internalType: "uint256", name: "_amount", type: "uint256" },
+      ],
+      name: "stakeAgreement",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
+    },
+  ],
 };
