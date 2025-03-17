@@ -1,71 +1,82 @@
-Smart contract source code: https://github.com/jayantna/Contractly
+# Contractly UI
 
-# Welcome to your Lovable project
+**Contractly UI** is a user interface for [Contractly](https://github.com/jayantna/contractly), a platform designed to streamline contract management. This repository contains the frontend codebase built with modern web technologies to provide a seamless and intuitive user experience.
 
-## Project info
+---
 
-**URL**: https://lovable.dev/projects/c953152a-6e89-4e1f-9f7b-8753e041778e
+## Features
 
-## How can I edit this code?
+- **User-Friendly Interface**: Clean and intuitive design for interacting with contracts.
+- **Responsive Design**: Works seamlessly across devices (desktop, tablet, and mobile).
+- **Interactive Components**: Built with reusable and interactive UI components.
+- **Integration**: Integrates with [Contractly backend](https://github.com/jayantna/contractly) for full functionality.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## Technologies Used
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c953152a-6e89-4e1f-9f7b-8753e041778e) and start prompting.
+- **Frontend Framework**: [React.js](https://reactjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) or [CSS Modules] (if applicable)
+- **State Management**: [Redux](https://redux.js.org/) or [Context API] (if applicable)
+- **Routing**: [React Router](https://reactrouter.com/)
+- **API Integration**: [Axios](https://axios-http.com/) or [Fetch API]
+- **Testing**: [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- **Build Tool**: [Vite](https://vitejs.dev/) or [Webpack] (if applicable)
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## Project Structure
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+contractly-ui/
+├── public/              # Static assets
+├── src/                 # Source code
+│   ├── components/      # Reusable UI components
+│   ├── pages/           # Application pages
+│   ├── styles/          # Global styles or Tailwind config
+│   ├── utils/           # Utility functions
+│   ├── App.jsx          # Main application component
+│   └── main.jsx         # Entry point
+├── .env.example         # Environment variables template
+├── .gitignore           # Files and directories to ignore
+├── package.json         # Project dependencies and scripts
+├── README.md            # Project documentation
+└── vite.config.js       # Vite configuration (if using Vite)
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Contributing
 
-**Use GitHub Codespaces**
+We welcome contributions! If you'd like to contribute to Contractly UI, please follow these steps:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add your commit message here"
+   ```
+4. Push to your branch:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5. Open a pull request and describe your changes.
 
-## What technologies are used for this project?
+---
 
-This project is built with .
+## License
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/c953152a-6e89-4e1f-9f7b-8753e041778e) and click on Share -> Publish.
+## Contact
 
-## I want to use a custom domain - is that possible?
+For questions or feedback, feel free to reach out:
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+- **Jayant Naik**  
+  - GitHub: [@jayantna](https://github.com/jayantna)  
+  - Email: [jayantdevhub](mailto:contact@jayantdevhub.in)
